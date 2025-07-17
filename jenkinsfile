@@ -1,0 +1,34 @@
+stages {
+    stage('Clone') {
+        steps {
+            git branch: 'master', url: 'https://github.com/naresh7598/spring-petclinic.git'
+        }
+    }
+    stage('Build') {
+        steps {
+            sh 'mvn package'
+        }
+    }
+    
+    stage('Test') {
+        steps {
+            sh 'mvn test'
+        }
+    }
+    stage('Test Results Reports') {
+        steps {
+            junit 'target/surefire-reports/*.xml'
+        }
+    }
+    
+    stage('Artifacts') {
+        steps {
+            archiveArtifacts artifacts: 'target/*.war', followSymlinks: false
+        }
+    }
+    stage('Deploy') {
+        steps {
+            echo 'Hello World'
+        }
+    }
+}
